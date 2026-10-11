@@ -1,6 +1,6 @@
 import Input from '@shared/ui/Input/Input';
 import Button from '@shared/ui/Button/Button';
-function Header({ search, onSearchChange }){
+function Header({ search, onSearchChange, isBoardVisible, onToggleBoard }){
   return (
     <div>
         <h1>TaskFlow</h1>
@@ -12,6 +12,9 @@ function Header({ search, onSearchChange }){
         {search && (
             <Button onClick={() => onSearchChange('')}>Clear</Button>
         )}
+        <Button onClick={onToggleBoard}>
+        {isBoardVisible ? 'Hide' : 'View'}
+      </Button>
     </div>    
   );
 }

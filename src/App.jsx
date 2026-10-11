@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Header from '@components/Header';
 import Board from '@components/Board';
-
+import { useToggle } from '@shared/hooks/useToggle';
 function App(){
 
   const [columns] = useState([
@@ -11,6 +11,7 @@ function App(){
   ]);
 
   const [search, setSearch] = useState('');
+  const [isBoardVisible, toggleBoard] = useToggle(true);
 
   const filteredColumns = columns.filter((columns) => 
     columns.title.toLowerCase().includes(search.toLowerCase())
@@ -18,8 +19,13 @@ function App(){
 
   return (
     <div>
-      <Header search={search} onSearchChange={setSearch}/>
-      <Board columns={filteredColumns}/>
+      <Header
+        search={search}
+        onSearchChange={setSearch}
+        isBoardVisible={isBoardVisible}
+        onToggleBoard={toggleBoard}
+      />
+      {isBoardVisible && <Board columns={filteredColumns}/>}
     </div>
   )
 }
