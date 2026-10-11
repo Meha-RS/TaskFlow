@@ -4,16 +4,22 @@ import Board from './components/Board';
 
 function App(){
 
-  const [column] = useState([
+  const [columns] = useState([
     {id: 1, title: 'To Do'},
     {id: 2, title: 'In progress'},
     {id: 3, title: 'Done'},
   ]);
 
+  const [search, setSearch] = useState('');
+
+  const filteredColumns = columns.filter((columns) => 
+    columns.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div>
-      <Header />
-      <Board columns={column}/>
+      <Header search={search} onSearchChange={setSearch}/>
+      <Board columns={filteredColumns}/>
     </div>
   )
 }
