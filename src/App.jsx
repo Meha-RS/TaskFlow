@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@components/Header';
 import Board from '@components/Board';
-const API = 'https://dummyjson.com/todos';
+import { fetchTasks } from '@api/task';
 function App(){
 
   const [columns] = useState([
@@ -13,19 +13,25 @@ function App(){
   const [search, setSearch] = useState('');
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const loadTasks = async () => {
     setIsLoading(true);
+    setError(null);
     try {
-      const response = await fetch(API);
-      const data = await response.json();
-      setTasks(data.todos);
+      const fetchedTasks = await fetchTasks();
+      setTasks(fetchedTasks);
     } catch (error) {
+      setError('Не удалось загрузить задачи. Проверьте интернет.');
       console.error('Ошибка:', error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadTasks();
+  }, []); 
 
   return (
     <div>
@@ -40,8 +46,13 @@ function App(){
         </button>
       </div>
 
-      <Board columns={columns} tasks={tasks} search={search}
-    />
+      {error &&(
+        <p style={{collor: 'red', marginTop:'10px'}}>{error}</p>
+      )}
+
+      {!error &&(
+        <Board columns={columns} tasks={tasks} search={search}/>
+      )}
     </div>
   )
 }
