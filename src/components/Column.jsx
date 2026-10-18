@@ -1,6 +1,13 @@
 function Column({ title, tasks }) {
   return (
-    <div style={{ border: '1px solid gray', padding: '10px', minWidth: '200px' }}>
+    <div style={{ 
+        backgroundColor: '#1e1e24', 
+        borderRadius: '8px', 
+        padding: '16px', 
+        width: '300px',
+        flexShrink: 0,
+        boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
+    }}>
       <h3>{title}</h3>
       
       {tasks.length === 0 ? (
