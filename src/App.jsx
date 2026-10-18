@@ -14,10 +14,6 @@ function App(){
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const filteredColumns = columns.filter((columns) => 
-    columns.title.toLowerCase().includes(search.toLowerCase())
-  );
-
   const loadTasks = async () => {
     setIsLoading(true);
     try {
@@ -44,7 +40,7 @@ function App(){
         </button>
       </div>
 
-      <Board columns={filteredColumns} tasks={tasks}
+      <Board columns={columns} tasks={tasks} search={search}
     />
     </div>
   )

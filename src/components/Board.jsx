@@ -1,6 +1,6 @@
 import Column from "./Column";
 
-function Board({columns, tasks}){
+function Board({columns, tasks, search}){
     return(
         <div style={{ 
             display: 'flex', 
@@ -10,11 +10,15 @@ function Board({columns, tasks}){
             alignItems: 'flex-start' 
         }}>
             {columns.map((column) =>{
+                const searchedTasks = tasks.filter((task) =>
+                    task.todo.toLowerCase().includes(search.toLowerCase())
+                );
+
                 let columnTask = [];
                 if(column.id === 'todo'){
-                    columnTask = tasks.filter((t) => !t.completed);
+                    columnTask = searchedTasks.filter((t) => !t.completed);
                 } else if(column.id === 'done'){
-                    columnTask = tasks.filter((t) => t.completed)
+                    columnTask = searchedTasks.filter((t) => t.completed)
                 }
 
                 return (
