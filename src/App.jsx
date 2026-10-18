@@ -5,9 +5,9 @@ const API = 'https://dummyjson.com/todos';
 function App(){
 
   const [columns] = useState([
-    {id: 1, title: 'To Do'},
-    {id: 2, title: 'In progress'},
-    {id: 3, title: 'Done'},
+    {id: 'todo', title: 'Ожидание'},
+    {id: 'progress', title: 'В процессе'},
+    {id: 'done', title: 'Выполненые'},
   ]);
 
   const [search, setSearch] = useState('');
@@ -43,13 +43,8 @@ function App(){
           {isLoading ? 'Загрузка...' : 'Загрузить задачи'}
         </button>
       </div>
-      <div style={{ margin: '20px' }}>
-        {tasks.map((task) => (
-          <p key={task.id}>{task.todo}</p>
-        ))}
-      </div>
 
-      <Board columns={filteredColumns}
+      <Board columns={filteredColumns} tasks={tasks}
     />
     </div>
   )

@@ -1,9 +1,30 @@
-function Board({columns}){
+import Column from "./Column";
+
+function Board({columns, tasks}){
     return(
-        <div>
-            {columns.map((column) => 
-                (<p key ={column.id}>{column.title}</p>
-            ))}
+        <div style={{ 
+            display: 'flex', 
+            gap: '20px', 
+            padding: '20px', 
+            justifyContent: 'center', 
+            alignItems: 'flex-start' 
+        }}>
+            {columns.map((column) =>{
+                let columnTask = [];
+                if(column.id === 'todo'){
+                    columnTask = tasks.filter((t) => !t.completed);
+                } else if(column.id === 'done'){
+                    columnTask = tasks.filter((t) => t.completed)
+                }
+
+                return (
+                    <Column
+                        key={column.id}
+                        title={column.title}
+                        tasks={columnTask}
+                    />
+                );
+            })}
         </div>
     );
 }
