@@ -1,58 +1,21 @@
-import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from '@components/Header';
-import Board from '@components/Board';
-import { fetchTasks } from '@api/task';
-import { useStore } from '@store/useStore';
-function App(){
+import BoardPage from './pages/BoardPage';
+import StatsPage from './pages/StatsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
-  const [columns] = useState([
-    {id: 'todo', title: 'Ожидание'},
-    {id: 'progress', title: 'В процессе'},
-    {id: 'done', title: 'Выполненые'},
-  ]);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const setTasks = useStore((state) => state.setTasks);
-  const tasks = useStore((state) => state.tasks);
-
-  const loadTasks = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const fetchedTasks = await fetchTasks();
-      setTasks(fetchedTasks);
-    } catch (error) {
-      setError('Не удалось загрузить задачи. Проверьте интернет.');
-      console.error('Ошибка:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadTasks();
-  }, []); 
-
+function App() {
   return (
-    <div>
-      <Header/>
-
-      <div style={{ margin: '20px' }}>
-        <button onClick={loadTasks} disabled={isLoading}>
-          {isLoading ? 'Загрузка...' : 'Загрузить задачи'}
-        </button>
-      </div>
-
-      {error &&(
-        <p style={{color: 'red', marginTop:'10px'}}>{error}</p>
-      )}
-
-      {!error &&(
-        <Board columns={columns}/>
-      )}
-    </div>
-  )
+    <BrowserRouter>
+      <Header />
+      
+      <Routes>
+        <Route path="/" element={<BoardPage />} />
+        <Route path="/stats" element={<StatsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
