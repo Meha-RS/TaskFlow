@@ -1,9 +1,21 @@
 import Column from "./Column";
+import { useStore } from '@store/useStore';
 
-function Board({columns, tasks, search}){
+function Board({columns}){
+    const tasks = useStore((state) => state.tasks);
+    const search = useStore((state) => state.search);
+    const selectedColumn = useStore((state) => state.selectedColumn);
+    
     const searchedTasks = tasks.filter((task) => {
         if (!search) return true;
         return task.todo.toLowerCase().includes(search.toLowerCase());
+    });
+
+    const filteredTasks = searchedTasks.filter((task) => {
+        if (selectedColumn === 'all') return true;
+        if (selectedColumn === 'todo') return !task.completed;
+        if (selectedColumn === 'done') return task.completed;
+        return false;
     });
 
     if (search && searchedTasks.length === 0) {
@@ -29,9 +41,9 @@ function Board({columns, tasks, search}){
 
                 let columnTask = [];
                 if(column.id === 'todo'){
-                    columnTask = searchedTasks.filter((t) => !t.completed);
+                    columnTask = filteredTasks.filter((t) => !t.completed);
                 } else if(column.id === 'done'){
-                    columnTask = searchedTasks.filter((t) => t.completed)
+                    columnTask = filteredTasks.filter((t) => t.completed)
                 }
 
                 return (

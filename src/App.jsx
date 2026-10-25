@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from '@components/Header';
 import Board from '@components/Board';
 import { fetchTasks } from '@api/task';
+import { useStore } from '@store/useStore';
 function App(){
 
   const [columns] = useState([
@@ -10,10 +11,10 @@ function App(){
     {id: 'done', title: 'Выполненые'},
   ]);
 
-  const [search, setSearch] = useState('');
-  const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const setTasks = useStore((state) => state.setTasks);
+  const tasks = useStore((state) => state.tasks);
 
   const loadTasks = async () => {
     setIsLoading(true);
@@ -35,10 +36,7 @@ function App(){
 
   return (
     <div>
-      <Header
-        search={search}
-        onSearchChange={setSearch}
-      />
+      <Header/>
 
       <div style={{ margin: '20px' }}>
         <button onClick={loadTasks} disabled={isLoading}>
@@ -47,11 +45,11 @@ function App(){
       </div>
 
       {error &&(
-        <p style={{collor: 'red', marginTop:'10px'}}>{error}</p>
+        <p style={{color: 'red', marginTop:'10px'}}>{error}</p>
       )}
 
       {!error &&(
-        <Board columns={columns} tasks={tasks} search={search}/>
+        <Board columns={columns}/>
       )}
     </div>
   )

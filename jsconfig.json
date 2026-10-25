@@ -5,6 +5,8 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@shared/*": ["src/shared/*"],
+      "@api/*": ["src/api/*"],
+      "@store/*": ["src/store/*"],
     }
   },
   "include": ["src"]
